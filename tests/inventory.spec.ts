@@ -14,7 +14,17 @@ test.beforeEach(async ({ page }) => {
 
 });
 
-test('add item to cart', async ({ page }) => {
-  await inventoryPage.addItemToCart('sauce-labs-backpack');
+test ('add item to cart', async({ page }) => {
+    await inventoryPage.addItemToCart('sauce-labs-backpack');
+    
+    const count = await inventoryPage.getCartCount();
+    await expect(count).toBe('1');
+})
 
-});
+test ('remove item from cart', async({ page }) => {
+  await inventoryPage.addItemToCart('sauce-labs-backpack');
+  await inventoryPage.removeItemFromCart('sauce-labs-backpack')
+  
+  await expect(inventoryPage.cartBadge).not.toBeVisible();
+
+})
